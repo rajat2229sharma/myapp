@@ -5,6 +5,7 @@ const iState = {
 
 const Reducer = (state= iState, action) => {
     if (action.type ==='CHANGE_NAME') {
+
         return {
             ...state,
             name: action.payload

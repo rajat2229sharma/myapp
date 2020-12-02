@@ -1,33 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from "react-redux";
-import { loadImageAction } from "../../state/actions/actions";
 const Image = (props) => {
-    console.log(props, 'store');
-    const [error, setError] = useState(false);
-
-    const handleRandomImage = () => {
-        fetch('https://source.unsplash.com/random/300x300')
-            .then(data => props.loadImage(data.url))
-            .catch(err => {
-                setError(true);
-                props.loadImage('');
-            })
-    }
-
+    // console.log(props, 'props');
     return (
         <div>
-            { props.url === '' && error === false &&
-                <button onClick={() => handleRandomImage()}>
+            { props.url === '' &&
+                <button onClick={() => props.loadImage()}>
                     Start
                 </button>
             }
             {
-                props.url !== '' && error === false &&
+                props.url !== '' &&
                 <div>
                     <div>
                         <img src={props.url} alt="Unsplash" />
                     </div>
-                    <button onClick={() => handleRandomImage()}>
+                    <button onClick={() => props.loadImage()}>
                         Next
                     </button>
                 </div>
@@ -37,7 +25,7 @@ const Image = (props) => {
 };
 
 const MapStateToProps = (state) => {
-    console.log(state, 'state');
+    // console.log(state, 'state');
     return {
         url: state.image.url
     };
@@ -45,7 +33,7 @@ const MapStateToProps = (state) => {
 
 const MapDispatchToProps = (dispatch) => {
     return {
-        loadImage: (value) => dispatch(loadImageAction(value))
+        loadImage: () => dispatch({type: 'LOAD_IMAGE'})
     }
 };
 

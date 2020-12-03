@@ -1,2 +1,6 @@
 export const LOAD_IMAGE = "LOAD_IMAGE";
 export const LOAD_IMAGE_TWO = "LOAD_IMAGE_TWO";
+export const LIKE_IMAGE = "LIKE_IMAGE";
+export const DISLIKE_IMAGE = "DISLIKE_IMAGE";
+export const LIKE_IMAGE_TWO = "LIKE_IMAGE_TWO";
+export const DISLIKE_IMAGE_TWO = "DISLIKE_IMAGE_TWO";

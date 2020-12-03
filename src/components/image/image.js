@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from "react-redux";
+import { dislikeAction, likeAction, loadImageAction } from '../../state/actions/actions';
 const Image = (props) => {
     // console.log(props, 'props');
     return (
@@ -18,6 +19,18 @@ const Image = (props) => {
                     <button onClick={() => props.loadImage()}>
                         Next
                     </button>
+                    <br />
+                    <br />
+                    <br />
+                    <button onClick={() => props.likeImage()}>
+                        {props.totalLike}  LIKE
+                    </button>
+                    <br />
+                    <br />
+                    <br />
+                    <button onClick={() => props.dislikeImage()}>
+                        {props.totalDislike}  DISLIKE
+                    </button>
                 </div>
             }
         </div>
@@ -25,15 +38,21 @@ const Image = (props) => {
 };
 
 const MapStateToProps = (state) => {
-    // console.log(state, 'state');
+    console.log(state, 'state');
     return {
-        url: state.image.url
+        url: state.image.url,
+        like: state.image.like,
+        dislike: state.image.dislike,
+        totalLike: state.totalLike,
+        totalDislike: state.totalDislike,
     };
 }
 
 const MapDispatchToProps = (dispatch) => {
     return {
-        loadImage: () => dispatch({type: 'LOAD_IMAGE'})
+        loadImage: () => dispatch(loadImageAction()),
+        likeImage: () => dispatch(likeAction()),
+        dislikeImage: () => dispatch(dislikeAction()),
     }
 };
 

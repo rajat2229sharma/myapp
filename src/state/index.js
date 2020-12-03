@@ -1,24 +1,30 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import loadImageReducer from "./reducers/reducers";
-import { watchLoadImage } from '../sagas/saga.js';
+import { watchLoadImage, watchLikeImage, watchDislikeImage } from '../sagas/saga.js';
 
 const sagaMiddleware =createSagaMiddleware();
-const reducer = combineReducers({ image: loadImageReducer })
+// const reducer = combineReducers({ image: loadImageReducer })
 
 export const initialState = {
+    totalLike: 0,
+    totalDislike: 0,
     image: {
-        url: ''
+        url: '',
+        like: false,
+        dislike: false,
     }
 };
 
 const store = createStore(
-    reducer,
+    loadImageReducer,
     initialState,
     compose(applyMiddleware(sagaMiddleware),
         window.__REDUX_DEVTOOLS_EXTENSION__ &&
         window.__REDUX_DEVTOOLS_EXTENSION__())
 )
 sagaMiddleware.run(watchLoadImage);
+sagaMiddleware.run(watchLikeImage);
+sagaMiddleware.run(watchDislikeImage);
 
 export default store;

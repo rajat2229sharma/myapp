@@ -20,6 +20,12 @@ function* randomLikeImage() {
 function* randomDislikeImage() {
     yield put({ type: "DISLIKE_IMAGE_TWO" });
 }
+function* workerFinishImage() {
+    yield put({ type: actionTypes.ASYNC_FINISH_UNSPLASH_IMAGE })
+}
+function* workerResetAllState() {
+    yield put({ type: actionTypes.ASYNC_RESET_ALL_STATE })
+}
 
 export function* watchLoadImage() {
     yield takeEvery(actionTypes.LOAD_IMAGE, randomLoadImage);
@@ -29,4 +35,10 @@ export function* watchLikeImage() {
 }
 export function* watchDislikeImage() {
     yield takeEvery(actionTypes.DISLIKE_IMAGE, randomDislikeImage);
+}
+export function* watcherFinishImage() {
+    yield takeEvery(actionTypes.FINISH_UNSPLASH_IMAGE, workerFinishImage);
+}
+export function* watcherResetAllState() {
+    yield takeEvery(actionTypes.RESET_ALL_STATE, workerResetAllState);
 }

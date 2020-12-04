@@ -13,6 +13,17 @@ export const dislikeAction = () => ({
     type: actions.DISLIKE_IMAGE,
 })
 
+export const finishUnsplashImageAction = () => {
+    return {
+        type: actions.FINISH_UNSPLASH_IMAGE,
+    }
+}
+
+export const resetAllStateAction = () => {
+    return {
+        type: actions.RESET_ALL_STATE
+    }
+}
 // export const handleRandomImage = (props) => {
 //     fetch('https://source.unsplash.com/random/300x300')
 //         .then(data => props.loadImage(data.url))

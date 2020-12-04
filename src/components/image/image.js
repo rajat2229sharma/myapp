@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from "react-redux";
-import { dislikeAction, likeAction, loadImageAction } from '../../state/actions/actions';
+import { Link } from 'react-router-dom';
+import { dislikeAction, likeAction, loadImageAction, finishUnsplashImageAction } from '../../state/actions/actions';
 const Image = (props) => {
     // console.log(props, 'props');
     return (
@@ -11,7 +12,7 @@ const Image = (props) => {
                 </button>
             }
             {
-                props.url !== '' &&
+                props.url !== '' && props.finish === false &&
                 <div>
                     <div>
                         <img src={props.url} alt="Unsplash" />
@@ -19,6 +20,9 @@ const Image = (props) => {
                     <button onClick={() => props.loadImage()}>
                         Next
                     </button>
+                    <Link to="/result">
+                        <button data-testid="finish-button" onClick={() => props.finishUnsplashImage()}>Finish</button>
+                    </Link>
                     <br />
                     <br />
                     <br />
@@ -43,6 +47,7 @@ const MapStateToProps = (state) => {
         url: state.image.url,
         like: state.image.like,
         dislike: state.image.dislike,
+        finish: state.finish,
         totalLike: state.totalLike,
         totalDislike: state.totalDislike,
     };
@@ -53,6 +58,7 @@ const MapDispatchToProps = (dispatch) => {
         loadImage: () => dispatch(loadImageAction()),
         likeImage: () => dispatch(likeAction()),
         dislikeImage: () => dispatch(dislikeAction()),
+        finishUnsplashImage: () => dispatch(finishUnsplashImageAction())
     }
 };
 

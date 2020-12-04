@@ -28,6 +28,20 @@ const loadImageReducer = (state= initialState, action) => {
             newState.image.dislike = true;
             newState.image.like = false;
             break;
+
+        case actions.ASYNC_FINISH_UNSPLASH_IMAGE:
+            newState.finish = true;
+            break;
+
+        case actions.ASYNC_RESET_ALL_STATE:
+            newState.totalLike = 0;
+            newState.totalDislike = 0;
+            newState.finish = false;
+            newState.image.url = "";
+            newState.image.error = false;
+            newState.image.like = false;
+            newState.image.dislike = false;
+            break;
             // return { url: value }
 
         // case actions.LIKE_IMAGE_TWO:

@@ -21,8 +21,9 @@ const store = createStore(
     loadImageReducer,
     initialState,
     compose(applyMiddleware(sagaMiddleware),
-        window.__REDUX_DEVTOOLS_EXTENSION__ &&
-        window.__REDUX_DEVTOOLS_EXTENSION__())
+        // window.__REDUX_DEVTOOLS_EXTENSION__ &&
+        // window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
 )
 sagaMiddleware.run(watchLoadImage);
 sagaMiddleware.run(watchLikeImage);

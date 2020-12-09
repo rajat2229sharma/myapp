@@ -5,7 +5,7 @@ import { dislikeAction, likeAction, loadImageAction, finishUnsplashImageAction }
 const Image = (props) => {
     // console.log(props, 'props');
     return (
-        <div>
+        <div data-testid="main-image">
             { props.url === '' &&
                 <button onClick={() => props.loadImage()}>
                     Start

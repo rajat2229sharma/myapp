@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Result = (props) => {
     return (
-        <div>
+        <div data-testid="result-random-image">
             {
                 props.finish === true ?
                     <div>

@@ -1,65 +1,92 @@
-import React from 'react'
-import { connect } from "react-redux";
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { dislikeAction, likeAction, loadImageAction, finishUnsplashImageAction } from '../../state/actions/actions';
+import { getImageAction, likeImageAction, dislikeImageAction, finishUnsplashImageAction } from "../../state/actions/action";
+
+const style = {
+    container: {
+        height: '100vh',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        textAlign: 'center'
+    },
+    button: {
+        fontSize: '17px',
+        height: '35px',
+        width: '70px',
+        margin: '10px',
+        background: '#333',
+        color: '#fff',
+        border: '1px solid black',
+    }
+}
+
 const Image = (props) => {
-    // console.log(props, 'props');
+
+    useEffect(() => {
+        props.getImage();
+    }, [])
+
+    const likeButtonPressed = (props.like === true) ? { background: '#24a0ed', color: 'black' } : {};
+    const dislikeButtonPressed = (props.dislike === true) ? { background: '#ff4040', color: 'black' } : {};
+
     return (
-        <div data-testid="main-image">
-            { props.url === '' &&
-                <button onClick={() => props.loadImage()}>
-                    Start
-                </button>
+        <div style={style.container} data-testid="random-img-page">
+            {
+                props.url !== "" ? <></> : <h2 data-testid="loading">Loading...</h2>
             }
             {
-                props.url !== '' && props.finish === false &&
+                props.error === true &&
                 <div>
-                    <div>
-                        <img src={props.url} alt="Unsplash" />
-                    </div>
-                    <button onClick={() => props.loadImage()}>
-                        Next
-                    </button>
-                    <Link to="/result">
-                        <button data-testid="finish-button" onClick={() => props.finishUnsplashImage()}>Finish</button>
-                    </Link>
-                    <br />
-                    <br />
-                    <br />
-                    <button onClick={() => props.likeImage()}>
-                        {props.totalLike}  LIKE
-                    </button>
-                    <br />
-                    <br />
-                    <br />
-                    <button onClick={() => props.dislikeImage()}>
-                        {props.totalDislike}  DISLIKE
-                    </button>
+                    <h3>Unable to fetch image.</h3>
+                    <button data-testid="retry-button" style={style.button} onClick={() => props.getImage()}>Retry</button>
                 </div>
             }
+            {
+                props.url !== '' && props.error === false && props.finish === false &&
+                <div>
+                    <div>
+                        <img data-testid="random-image" src={props.url} alt="Unsplash" />
+                    </div>
+                    <div>
+                        <button data-testid="like-button" style={{ ...style.button, ...likeButtonPressed }} disabled={(props.like)} onClick={() => props.likeImage()}>Like</button>
+                        <button data-testid="dislike-button" style={{ ...style.button, ...dislikeButtonPressed }} disabled={(props.dislike)} onClick={() => props.dislikeImage()}>Dislike</button>
+                    </div>
+                    <div>
+                        <button data-testid="next-button" style={style.button} onClick={() => props.getImage()}>Next</button>
+                        <Link to="/result">
+                            <button data-testid="finish-button" style={style.button} onClick={() => props.finishUnsplashImage()}>Finish</button>
+                        </Link>
+                    </div>
+                </div>
+            }
+
         </div>
     )
-};
+}
+
+const MapDispatchToProps = (dispatch) => {
+    return {
+        getImage: () => dispatch(getImageAction()),
+        likeImage: () => dispatch(likeImageAction()),
+        dislikeImage: () => dispatch(dislikeImageAction()),
+        finishUnsplashImage: () => dispatch(finishUnsplashImageAction())
+    }
+}
 
 const MapStateToProps = (state) => {
-    console.log(state, 'state');
     return {
         url: state.image.url,
+        error: state.image.error,
         like: state.image.like,
         dislike: state.image.dislike,
         finish: state.finish,
         totalLike: state.totalLike,
         totalDislike: state.totalDislike,
-    };
-}
-
-const MapDispatchToProps = (dispatch) => {
-    return {
-        loadImage: () => dispatch(loadImageAction()),
-        likeImage: () => dispatch(likeAction()),
-        dislikeImage: () => dispatch(dislikeAction()),
-        finishUnsplashImage: () => dispatch(finishUnsplashImageAction())
     }
-};
+}
 
 export default connect(MapStateToProps, MapDispatchToProps)(Image);
